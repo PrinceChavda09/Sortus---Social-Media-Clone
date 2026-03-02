@@ -12,7 +12,6 @@ pillow==11.3.0
 pyjokes==0.8.3
 pypiwin32==223
 pyttsx3==2.98
-pywin32==310
 sqlparse==0.5.3
 tzdata==2025.2
 Werkzeug==3.1.3
