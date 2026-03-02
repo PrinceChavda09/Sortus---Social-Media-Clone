@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "functions": {
-    "SorTus/wsgi.py": {
-      "runtime": "@vercel/python"
+  "builds": [
+    {
+      "src": "SorTus/wsgi.py",
+      "use": "@vercel/python"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/(.*)",
