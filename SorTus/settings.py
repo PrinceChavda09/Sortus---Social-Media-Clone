@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-a_ft=lryl#50$*77f55d5a0)z4xnh$0r2_5yzjn5u6n$f==miz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # --- REMOVED THIS LINE ---
 # AUTH_USER_MODEL = "SocialApp.User"  <- This was causing major issues. We will use the default User model.
@@ -138,3 +138,8 @@ LOGIN_URL = 'SocialApp:login'
 
 # Replace your current ALLOWED_HOSTS with this:
 ALLOWED_HOSTS = ['.vercel.app', 'now.sh', 'localhost', '127.0.0.1']
+
+import os
+SECRET_KEY = os.environ.get('SECRET_KEY', 'your-very-secret-key-here')
+
+DEBUG = True
