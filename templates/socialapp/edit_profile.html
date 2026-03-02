@@ -1,0 +1,99 @@
+{% extends 'socialapp/base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h2 class="mb-4">Edit Profile</h2>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                <h5>Profile Picture</h5>
+                                <label for="id_profile_pic" class="edit-profile-avatar-container">
+                                    <img src="{{ profile_form.instance.profile_pic.url }}" 
+                                         alt="Profile Picture" 
+                                         class="profile-avatar mb-2">
+                                    <div class="edit-profile-avatar-overlay">
+                                        <i class="fas fa-camera fa-2x"></i>
+                                    </div>
+                                </label>
+                                <div class="d-none">
+                                    {{ profile_form.profile_pic }}
+                                </div>
+                                <small class="form-text text-muted">Click image to change</small>
+                            </div>
+
+                            <div class="col-md-8">
+                                <h5 class="mb-3">Account Details</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ user_form.first_name.id_for_label }}" class="form-label">{{ user_form.first_name.label }}</label>
+                                        {{ user_form.first_name }}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ user_form.last_name.id_for_label }}" class="form-label">{{ user_form.last_name.label }}</label>
+                                        {{ user_form.last_name }}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="{{ user_form.email.id_for_label }}" class="form-label">{{ user_form.email.label }}</label>
+                                    {{ user_form.email }}
+                                </div>
+
+                                <hr class="my-4">
+
+                                <h5 class="mb-3">Public Profile</h5>
+                                <div class="mb-3">
+                                    <label for="{{ profile_form.bio.id_for_label }}" class="form-label">{{ profile_form.bio.label }}</label>
+                                    {{ profile_form.bio }}
+                                </div>
+                                <small class="form-text text-muted">
+                                    Your bio will be displayed on your public profile.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4 pt-4 border-top">
+                            <a href="{% url 'SocialApp:profile' user.username %}" class="btn btn-outline-secondary me-2">Cancel</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i> Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="card shadow-sm border-danger mt-4">
+                <div class="card-body p-4">
+                    <h5 class="text-danger">Delete Your Profile...</h5>
+                    <p class="small text-muted mb-2">Deleting your account is a permanent action and cannot be undone.</p>
+                    <a href="{% url 'SocialApp:delete_profile' %}" class="btn btn-danger">
+                        <i class="fas fa-trash me-1"></i> Delete My Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Find all input and textarea elements within the form
+        const formFields = document.querySelectorAll('form input, form textarea');
+        formFields.forEach(function(field) {
+            // Check if the field is a file, checkbox, or hidden input, and skip it
+            if (field.type !== 'file' && field.type !== 'checkbox' && field.type !== 'hidden') {
+                field.classList.add('form-control');
+            }
+        });
+    });
+</script>
+
+{% endblock content %}

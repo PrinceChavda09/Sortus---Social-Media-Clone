@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SorTus{% endblock %}</title>
+    
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="bg-light">
+
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'SocialApp:feed_view' %}">
+                <i class="fas fa-users me-2"></i>SorTus
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                {% if user.is_authenticated %}
+                <!-- Navbar Links -->
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'SocialApp:feed_view' %}"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    
+                    <!-- Profile Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                           {% if user.profile.profile_pic %}
+                                <img src="{{ user.profile.profile_pic.url }}" alt="Avatar" class="rounded-circle" width="25" height="25" style="object-fit: cover;">
+                           {% else %}
+                                <i class="fas fa-user"></i> 
+                           {% endif %}
+                           {{ user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'SocialApp:profile' user.username %}">My Profile</a></li>
+                            <!-- 
+                                ================================================================
+                                THIS IS THE FIX: The URL name is now 'edit_profile_view'
+                                ================================================================
+                            -->
+                            <li><a class="dropdown-item" href="{% url 'SocialApp:edit_profile_view' %}">Edit Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'SocialApp:logout' %}">Logout</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Create Post Button -->
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light btn-sm ms-lg-2" href="{% url 'SocialApp:create_post' %}">
+                            <i class="fas fa-plus"></i> Create Post
+                        </a>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'SocialApp:login' %}">
+                            <i class="fas fa-sign-in-alt me-1"></i>Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light btn-sm mt-1 mt-lg-0 ms-lg-2" href="{% url 'SocialApp:register' %}">
+                            Register
+                        </a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        <!-- Child templates will override this block -->
+        {% endblock content %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="container text-center mt-5 mb-3 text-muted">
+        <hr>
+        <p>&copy; {% now "Y" %} SorTus. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS (from CDN) -->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    
+</body>
+</html>
+

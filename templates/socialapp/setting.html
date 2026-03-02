@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block main %}
+<!-- Settings Page -->
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <!-- Account Settings -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h2 class="h4 mb-0 text-primary">
+            <i class="fas fa-cog me-2"></i> Account Settings
+          </h2>
+        </div>
+        <div class="card-body">
+          <form method="POST" action="{% url 'setting' %}">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label for="fullname" class="form-label">Full Name</label>
+              <input type="text" name="full_name" id="fullname" class="form-control" value="{{ user.full_name }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" name="username" id="username" class="form-control" value="{{ user.username }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" name="email" id="email" class="form-control" value="{{ user.email }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="bio" class="form-label">Bio</label>
+              <textarea name="bio" id="bio" class="form-control" rows="3">{{ user.profile.bio }}</textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">New Password</label>
+              <input type="password" name="password" id="password" class="form-control" placeholder="Leave blank to keep current password">
+            </div>
+
+            <div class="mb-4">
+              <label for="profile_pic" class="form-label">Profile Picture</label>
+              <input type="file" name="profile_pic" id="profile_pic" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save me-2"></i> Save Changes
+            </button>
+            <button type="reset" class="btn btn-outline-secondary ms-2">
+              <i class="fas fa-undo me-2"></i> Reset
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="card mt-4 border-danger">
+        <div class="card-header bg-white text-danger">
+          <h5 class="mb-0"><i class="fas fa-trash-alt me-2"></i> Danger Zone</h5>
+        </div>
+        <div class="card-body">
+          <p class="mb-3">Once you delete your account, there is no going back. Please be certain.</p>
+          <form method="POST" action="{% url 'delete_account' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger">
+              <i class="fas fa-user-times me-2"></i> Delete Account
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

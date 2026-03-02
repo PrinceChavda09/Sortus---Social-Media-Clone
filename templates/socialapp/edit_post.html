@@ -1,0 +1,69 @@
+{% extends 'socialapp/base.html' %}
+{% load static %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h2 class="mb-4">Edit Post</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row g-4">
+                            <div class="col-md-5">
+                                <h5 class="mb-3">Post Image</h5>
+                                <img id="imagePreview" 
+                                     src="{{ post.image.url }}" 
+                                     alt="Current post image" 
+                                     class="edit-post-image-preview img-fluid border mb-3">
+
+                                <label for="id_image" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-upload me-2"></i>Change Image
+                                </label>
+                                {{ form.image }}
+                            </div>
+
+                            <div class="col-md-7">
+                                <h5 class="mb-3">Post Content</h5>
+                                <div class="form-floating">
+                                    {{ form.content }}
+                                    <label for="id_content"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4 pt-4 border-top">
+                            <a href="{% url 'SocialApp:post_detail' post.id %}" class="btn btn-outline-secondary me-2">Cancel</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i> Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('id_image');
+        const imagePreview = document.getElementById('imagePreview');
+
+        imageInput.addEventListener('change', function(event) {
+            if (event.target.files && event.target.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                };
+                
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+    });
+</script>
+{% endblock content %}

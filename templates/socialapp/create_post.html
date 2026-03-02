@@ -1,0 +1,93 @@
+{% extends 'socialapp/base.html' %}
+{% load static %}
+
+{% block title %}Create New Post{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="create-post-container">
+                        <img src="{{ user.profile.profile_pic.url }}" alt="Your Avatar" class="create-post-avatar">
+
+                        <div class="flex-grow-1">
+                            {{ form.content }}
+                        </div>
+                    </div>
+                    
+                    <div class="d-none">
+                        {{ form.image }}
+                    </div>
+
+                    <div id="imagePreviewContainer" class="d-none mt-3">
+                        <div class="post-preview-container">
+                            <img id="imagePreview" src="#" alt="Image Preview" class="post-preview-image">
+                            <button type="button" id="removeImageBtn" class="btn-remove-image">&times;</button>
+                        </div>
+                    </div>
+
+                    <hr class="my-3">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <label for="id_image" class="btn btn-light">
+                            <i class="fas fa-image text-success"></i> Add Image
+                        </label>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane me-1"></i> Post
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('id_image');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const removeImageBtn = document.getElementById('removeImageBtn');
+
+        // Style the textarea to match our design
+        const contentTextarea = document.querySelector('textarea[name="content"]');
+        if (contentTextarea) {
+            contentTextarea.classList.add('form-control', 'create-post-textarea');
+            contentTextarea.setAttribute('rows', '4');
+            contentTextarea.setAttribute('placeholder', `What's on your mind, {{ user.username }}?`);
+        }
+
+        // Function to show the image preview
+        function showPreview(file) {
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreviewContainer.classList.remove('d-none');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Function to hide the image preview and clear the input
+        function removePreview() {
+            imageInput.value = ''; // Clear the file input
+            imagePreview.src = '#';
+            imagePreviewContainer.classList.add('d-none');
+        }
+
+        // Event listeners
+        imageInput.addEventListener('change', function(event) {
+            if (this.files && this.files[0]) {
+                showPreview(this.files[0]);
+            }
+        });
+
+        removeImageBtn.addEventListener('click', removePreview);
+    });
+</script>
+
+{% endblock content %}

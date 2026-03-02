@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "SorTus/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "SorTus/wsgi.py"
+    }
+  ]
+}

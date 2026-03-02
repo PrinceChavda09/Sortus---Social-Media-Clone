@@ -1,0 +1,87 @@
+{% extends 'socialapp/base.html' %}
+{% block title %}{{ post.author.username }}'s Post{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+            <a href="{% url 'SocialApp:feed_view' %}" class="text-decoration-none text-muted">
+                <i class="fas fa-arrow-left me-2"></i>Back to Feed
+            </a>
+            {% if post.author == request.user %}
+            <div>
+                <a href="{% url 'SocialApp:edit_post' post.id %}" class="btn btn-sm btn-outline-info me-2">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <a href="{% url 'SocialApp:delete_post' post.id %}" class="btn btn-sm btn-outline-danger">
+                    <i class="fas fa-trash"></i> Delete
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <a href="{% url 'SocialApp:profile' post.author.username %}">
+                        <img src="{{ post.author.profile.profile_pic.url }}" alt="{{ post.author.username }}'s profile picture" 
+                             class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                    </a>
+                    <div>
+                        <a href="{% url 'SocialApp:profile' post.author.username %}" class="text-dark text-decoration-none fw-bold">{{ post.author.username }}</a>
+                        <br>
+                        <small class="text-muted">{{ post.created_at|timesince }} ago</small>
+                    </div>
+                </div>
+
+                <p class="card-text">{{ post.content|linebreaksbr }}</p>
+
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Post Image" class="img-fluid rounded mb-3">
+                {% endif %}
+
+                <hr>
+                <a href="{% url 'SocialApp:like_post' post.id %}" class="btn btn-light text-decoration-none {% if request.user in post.likes.all %} text-danger {% endif %}">
+                    <i class="fas fa-heart me-2"></i>
+                    Like ({{ post.likes.count }})
+                </a>
+            </div>
+        </div>
+
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Add a comment</h5>
+                <form method="post" action="{% url 'SocialApp:add_comment' post.id %}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        {{ comment_form.content }}
+                        <button class="btn btn-primary" type="submit">Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Comments ({{ post.comments.count }})</h5>
+                {% for comment in post.comments.all %}
+                    <div class="d-flex mb-3">
+                        <a href="{% url 'SocialApp:profile' comment.author.username %}">
+                            <img src="{{ comment.author.profile.profile_pic.url }}" alt="{{ comment.author.username }}'s profile picture"
+                                 class="rounded-circle me-3" style="width: 35px; height: 35px; object-fit: cover;">
+                        </a>
+                        <div>
+                            <strong><a href="{% url 'SocialApp:profile' comment.author.username %}" class="text-dark text-decoration-none">{{ comment.author.username }}</a></strong>
+                            <small class="text-muted ms-2">{{ comment.created_at|timesince }} ago</small>
+                            <p class="mb-0">{{ comment.content }}</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-muted">No comments yet. Be the first to comment!</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

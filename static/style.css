@@ -1,0 +1,176 @@
+/*
+  This file is for custom styles that ADD to Bootstrap, not replace it.
+  It solves the "sticky footer" problem and adds our unique branding.
+*/
+
+/*
+  ================================================================
+  THE STICKY FOOTER FIX
+  ================================================================
+  This makes the body take up the full height of the browser window
+  and forces the <main> content area to grow and push the footer down.
+*/
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1; /* This is the magic property that pushes the footer down */
+}
+/* End of Sticky Footer Fix */
+
+
+/* A subtle hover effect for our post cards to make them feel interactive */
+.post-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Ensure user-uploaded post images have a consistent max height */
+.post-image {
+    max-height: 500px;
+    width: 100%;
+    object-fit: cover; /* Prevents images from being stretched */
+}
+
+/*
+  A custom class for our unique profile page header layout.
+  This creates the container for the overlapping avatar.
+*/
+.profile-header {
+  position: relative; /* This is the anchor for the avatar */
+  margin-bottom: 80px; /* Leave space for the avatar to overlap */
+}
+
+.profile-avatar-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); /* Horizontally center the avatar */
+  bottom: -75px; /* Push the avatar down so it overlaps the bottom */
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 5px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.post-image-container {
+    max-height: 500px; /* You can adjust this value */
+    overflow: hidden;
+    border-radius: 0.25rem; /* Matches Bootstrap's default rounding */
+    margin-bottom: 1rem;
+}
+
+.post-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This is the magic: it fills the container without stretching */
+}
+
+.edit-post-image-preview {
+  width: 100%;
+  height: 300px; /* A fixed height for the preview area */
+  object-fit: cover; /* Ensures the preview image fills the space without distortion */
+  border-radius: 0.5rem; /* Matches Bootstrap's card rounding */
+  background-color: #f8f9fa; /* A light background for when there's no image */
+}
+
+/* Hides the ugly default file input */
+#id_image {
+  display: none;
+}
+
+
+.create-post-container {
+  display: flex;
+  gap: 1rem; /* Space between avatar and the form */
+  align-items: flex-start;
+}
+
+.create-post-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Style the textarea to look less like a traditional input */
+.create-post-textarea {
+  border: none;
+  resize: none; /* Prevent user from resizing */
+  box-shadow: none !important; /* Override Bootstrap's focus shadow */
+  background-color: transparent !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.create-post-textarea:focus {
+  border-color: transparent;
+  outline: 0;
+}
+
+/* Container for the image preview */
+.post-preview-container {
+  position: relative;
+  max-width: 200px; /* Limit preview size */
+  margin-top: 1rem;
+}
+
+.post-preview-image {
+  width: 100%;
+  border-radius: 0.5rem;
+}
+
+.btn-remove-image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  line-height: 1;
+}
+
+.edit-profile-avatar-container {
+  position: relative;
+  cursor: pointer;
+  display: inline-block; /* Ensures the container only takes up the space of the image */
+}
+
+.edit-profile-avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.2s ease-in-out;
+  pointer-events: none; /* Allows clicks to go through to the label */
+}
+
+.edit-profile-avatar-container:hover .edit-profile-avatar-overlay {
+  opacity: 1; /* Show the overlay on hover */
+}
+

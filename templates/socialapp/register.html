@@ -1,0 +1,62 @@
+{% extends 'socialapp/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-5">
+                <h2 class="card-title text-center mb-4">Create an Account</h2>
+                
+                <form method="post" action="{% url 'SocialApp:register' %}">
+                    {% csrf_token %}
+
+                    <!-- Display any non-field errors (like password mismatch) -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Let Django render the form fields, we'll style them after -->
+                    {{ form.as_p }}
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button class="btn btn-primary" type="submit">Create Account</button>
+                    </div>
+
+                    <p class="text-center mt-3">
+                        Already have an account? 
+                        <a href="{% url 'SocialApp:login' %}">Sign In</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- This script adds Bootstrap classes to the form fields Django generates -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Find all input and select elements within the form
+        const formFields = document.querySelectorAll("form input, form select");
+        formFields.forEach(function(field) {
+            // Check if the field is a checkbox, if so, use 'form-check-input'
+            if (field.type === 'checkbox') {
+                field.classList.add('form-check-input');
+            } else {
+                // Otherwise, use 'form-control'
+                field.classList.add('form-control');
+            }
+        });
+
+        // Add help text styling
+        const helpTexts = document.querySelectorAll(".helptext");
+        helpTexts.forEach(function(text) {
+            text.classList.add('form-text', 'text-muted', 'small');
+        });
+    });
+</script>
+
+{% endblock content %}
