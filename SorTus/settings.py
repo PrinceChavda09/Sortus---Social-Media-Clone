@@ -145,18 +145,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'your-very-secret-key-here')
 
 import os
 
-# The URL used to access static files
 STATIC_URL = '/static/'
 
-# Where your local static files are (usually in a folder called 'static')
+# Where your CSS currently lives in your project
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-# Where Django will collect all files for production
+# Where Vercel will look for the files (must be this exact name)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
-
-# Use WhiteNoise to serve and compress your CSS/JS
-STORAGES = {
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}

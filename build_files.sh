@@ -1,6 +1,5 @@
-#!/bin/bash
-# Install dependencies
-python3.12 -m pip install -r requirements.txt
+# Install all packages from your requirements.txt
+pip install -r requirements.txt
 
-# Gather all CSS/JS files into the STATIC_ROOT folder
+# Create the static folder and move your CSS there
 python3.12 manage.py collectstatic --noinput --clear
