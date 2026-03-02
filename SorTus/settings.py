@@ -141,5 +141,3 @@ ALLOWED_HOSTS = ['.vercel.app', 'now.sh', 'localhost', '127.0.0.1']
 
 import os
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-very-secret-key-here')
-
-DEBUG = True

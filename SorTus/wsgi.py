@@ -11,9 +11,10 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
+# Ensure 'SorTus' matches your folder name perfectly
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SorTus.settings')
 
 application = get_wsgi_application()
 
-# Add this line so Vercel can find your app
+# Vercel needs this 'app' variable to exist
 app = application
