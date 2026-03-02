@@ -118,7 +118,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 # --- CORRECTED THIS LINE ---
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 # --- ADDED THESE LINES FOR USER-UPLOADED MEDIA FILES ---
 MEDIA_URL = '/media/'
@@ -142,13 +143,3 @@ ALLOWED_HOSTS = ['.vercel.app', 'now.sh', 'localhost', '127.0.0.1']
 
 import os
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-very-secret-key-here')
-
-import os
-
-STATIC_URL = '/static/'
-
-# Where your CSS currently lives in your project
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-
-# Where Vercel will look for the files (must be this exact name)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
